@@ -1,10 +1,10 @@
 const { Schema, model } = require("mongoose");
 const TripModel = require("../models/trip.model");
 
-const tripSchema = new Schema(
+const StopSchema = new Schema(
   {
     location: {
-      type: Location,
+      type: String,
       required: [true, "Please enter a location"],
     },
     name: {
@@ -19,7 +19,7 @@ const tripSchema = new Schema(
       required: [true, "Please enter a date"],
     },
     pictures: {
-      type: Image,
+      type: String,
     },
     trip_id: {
       type: Schema.Types.ObjectId,

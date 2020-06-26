@@ -10,8 +10,12 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Register routes
-const todoRoutes = require("./routes/index.routes");
-app.use("/api", todoRoutes);
+const authRoutes = require("./routes/auth.routes");
+app.use("/api", authRoutes);
+const tripRoutes = require("./routes/trip.routes");
+app.use("/api", tripRoutes);
+const stopRoutes = require("./routes/stop.routes");
+app.use("/api", stopRoutes);
 
 //Start the server to begin listening on a port
 // make sure you don't run it on port 3000 because
