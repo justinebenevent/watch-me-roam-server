@@ -10,9 +10,9 @@ router.get("/signup", (req, res) =>
 
 // SIGN UP ------------ POST
 router.post("/signup", (req, res) => {
-  const { username, email, password, currency } = req.body;
+  const { username, email, password } = req.body;
 
-  if (!username || !email || !password || !currency) {
+  if (!username || !email || !password) {
     res.status(500).render("auth/signup.hbs", {
       errorMessage: "Please enter username, email and password",
     });

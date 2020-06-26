@@ -15,9 +15,12 @@ const tripSchema = new Schema(
       required: [true, "Please enter a date"],
     },
     user_id: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
+      type: Number,
     },
+    // user_id: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "User",
+    // },
   },
   {
     timestamps: true,
