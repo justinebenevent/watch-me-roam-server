@@ -3,12 +3,31 @@ const router = express.Router();
 const UserModel = require("../models/user.model");
 const TripModel = require("../models/trip.model");
 
+// // protected sites middleware
+// router.use((req, res, next) => {
+//   if (req.session.passport) {
+//     req.session.loggedInUser = req.session.passport.user;
+//   }
+//   if (req.session.loggedInUser) {
+//     next();
+//   } else {
+//     res.redirect("/signin");
+//   }
+// });
+
+// // logout middleware, connected whith "destroys session"
+// router.use(function (req, res, next) {
+//   res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
+//   next();
+// });
+
 // ------------------------------------------------------------
 //                          TRIP DISPLAY
 // ------------------------------------------------------------
 router.get("/home", (req, res) => {
   //looks into the trip model and find the trips whose user_id matched the user loggedIn id
-  TripModel.find({ user_id: req.session._id })
+  console.log(req.session);
+  TripModel.find({ user_id: 123 })
     .then((trips) => {
       res.status(200).json(trips);
     })
