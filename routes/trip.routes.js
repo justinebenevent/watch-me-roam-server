@@ -5,11 +5,11 @@ const TripModel = require("../models/trip.model");
 
 const { isLoggedIn } = require("./middleware");
 
-// logout middleware, connected whith "destroys session"
-router.use(function (req, res, next) {
-  res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
-  next();
-});
+// // logout middleware, connected whith "destroys session"
+// router.use(function (req, res, next) {
+//   res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
+//   next();
+// });
 
 // ------------------------------------------------------------
 //                          TRIP DISPLAY
