@@ -3,31 +3,21 @@ const router = express.Router();
 const UserModel = require("../models/user.model");
 const TripModel = require("../models/trip.model");
 
-// // protected sites middleware
-// router.use((req, res, next) => {
-//   if (req.session.passport) {
-//     req.session.loggedInUser = req.session.passport.user;
-//   }
-//   if (req.session.loggedInUser) {
-//     next();
-//   } else {
-//     res.redirect("/signin");
-//   }
-// });
+const { isLoggedIn } = require("./middleware");
 
-// // logout middleware, connected whith "destroys session"
-// router.use(function (req, res, next) {
-//   res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
-//   next();
-// });
+// logout middleware, connected whith "destroys session"
+router.use(function (req, res, next) {
+  res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
+  next();
+});
 
 // ------------------------------------------------------------
 //                          TRIP DISPLAY
 // ------------------------------------------------------------
-router.get("/home", (req, res) => {
+router.get("/home", isLoggedIn, (req, res) => {
   //looks into the trip model and find the trips whose user_id matched the user loggedIn id
-  console.log(req.session);
-  TripModel.find({ user_id: 123 })
+  console.log("hi", req.session);
+  TripModel.find({ user_id: req.session.loggedInUser.username })
     .then((trips) => {
       res.status(200).json(trips);
     })
@@ -43,7 +33,7 @@ router.get("/home", (req, res) => {
 //                          TRIP CREATE
 // ------------------------------------------------------------
 
-router.post("/createTrip", (req, res) => {
+router.post("/createTrip", isLoggedIn, (req, res) => {
   const { name, description, startDate } = req.body;
   console.log(req.body);
   TripModel.create({
@@ -69,7 +59,7 @@ router.post("/createTrip", (req, res) => {
 //                          TRIP DELETE
 // ------------------------------------------------------------
 
-router.delete("/trips/:id", (req, res) => {
+router.delete("/trips/:id", isLoggedIn, (req, res) => {
   TripModel.findByIdAndDelete(req.params.id)
     .then((response) => {
       res.status(200).json(response);
@@ -86,7 +76,7 @@ router.delete("/trips/:id", (req, res) => {
 //                          TRIP UPDATE
 // ------------------------------------------------------------
 
-router.patch("/editTrip/:id", (req, res) => {
+router.patch("/editTrip/:id", isLoggedIn, (req, res) => {
   let id = req.params.id;
   const { name, description, startDate } = req.body;
   TripModel.findByIdAndUpdate(id, {

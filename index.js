@@ -16,7 +16,7 @@ app.use(
 );
 
 let MONGODB_URI =
-  process.env.MONGODB_URI || "mongodb://localhost:27017/ReactTodos";
+  process.env.MONGODB_URI || "mongodb://localhost:27017/watch-me-roam";
 app.use(
   session({
     secret: "my-secret-weapon",
@@ -50,8 +50,6 @@ app.use(bodyParser.json()); //crucial for post requests from client
 app.use(express.static(path.join(__dirname, "public")));
 
 //Register routes
-
-//Register routes
 const authRoutes = require("./routes/auth.routes");
 app.use("/api", authRoutes);
 const tripRoutes = require("./routes/trip.routes");
@@ -70,10 +68,6 @@ app.use((req, res, next) => {
 app.listen(process.env.PORT || 5000, "0.0.0.0", () => {
   console.log("Server is running");
 });
-
-//Use body parser. To be able parse post request information
-const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: true }));
 
 //Start the server to begin listening on a port
 // make sure you don't run it on port 3000 because

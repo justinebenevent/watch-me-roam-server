@@ -4,29 +4,19 @@ const UserModel = require("../models/user.model");
 const TripModel = require("../models/trip.model");
 const StopModel = require("../models/stop.model");
 
-// // protected sites middleware
-// router.use((req, res, next) => {
-//   if (req.session.passport) {
-//     req.session.loggedInUser = req.session.passport.user;
-//   }
-//   if (req.session.loggedInUser) {
-//     next();
-//   } else {
-//     res.redirect("/signin");
-//   }
-// });
+const { isLoggedIn } = require("./middleware");
 
-// // logout middleware, connected whith "destroys session"
-// router.use(function (req, res, next) {
-//   res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
-//   next();
-// });
+// logout middleware, connected whith "destroys session"
+router.use(function (req, res, next) {
+  res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
+  next();
+});
 
 // ------------------------------------------------------------
 //                          STOP DISPLAY
 // ------------------------------------------------------------
 
-router.get("/trip/:trip_id/stops", (req, res) => {
+router.get("/stops", isLoggedIn, (req, res) => {
   //looks into the trip model and find the trips whose user_id matched the user loggedIn id
   StopModel.find({ trip_id: req.params.trip_id })
     .then((stops) => {
@@ -44,7 +34,7 @@ router.get("/trip/:trip_id/stops", (req, res) => {
 //                          STOP CREATE
 // ------------------------------------------------------------
 
-router.post("/createStop", (req, res) => {
+router.post("/createStop", isLoggedIn, (req, res) => {
   const {
     location,
     name,
@@ -79,7 +69,7 @@ router.post("/createStop", (req, res) => {
 //                          STOP DELETE
 // ------------------------------------------------------------
 
-router.delete("/stops/:id", (req, res) => {
+router.delete("/stops/:id", isLoggedIn, (req, res) => {
   StopModel.findByIdAndDelete(req.params.id)
     .then((response) => {
       res.status(200).json(response);
@@ -96,7 +86,7 @@ router.delete("/stops/:id", (req, res) => {
 //                          STOP UPDATE
 // ------------------------------------------------------------
 
-router.patch("/editStop/:id", (req, res) => {
+router.patch("/editStop/:id", isLoggedIn, (req, res) => {
   let id = req.params.id;
   const { location, name, description, startDate, pictures } = req.body;
   StopModel.findByIdAndUpdate(id, {
