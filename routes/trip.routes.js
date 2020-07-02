@@ -17,7 +17,7 @@ const { isLoggedIn } = require("./middleware");
 router.get("/home", isLoggedIn, (req, res) => {
   //looks into the trip model and find the trips whose user_id matched the user loggedIn id
   console.log("hi", req.session);
-  TripModel.find({ user_id: req.session.loggedInUser.username })
+  TripModel.find({ user_id: req.session.loggedInUser._id })
     .then((trips) => {
       res.status(200).json(trips);
     })
@@ -40,7 +40,7 @@ router.post("/createTrip", isLoggedIn, (req, res) => {
     name: name,
     description: description,
     startDate: startDate,
-    user_id: 123,
+    user_id: req.session.loggedInUser._id,
   })
     .then((response) => {
       console.log("it is working");

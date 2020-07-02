@@ -18,7 +18,7 @@ const StopSchema = new Schema(
       type: Date,
       required: [true, "Please enter a date"],
     },
-    pictures: {
+    image: {
       type: String,
     },
     trip_id: {

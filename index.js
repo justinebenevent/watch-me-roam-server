@@ -56,6 +56,8 @@ const tripRoutes = require("./routes/trip.routes");
 app.use("/api", tripRoutes);
 const stopRoutes = require("./routes/stop.routes");
 app.use("/api", stopRoutes);
+const fileUploadRoutes = require("./routes/file-upload.routes");
+app.use("/api", fileUploadRoutes);
 
 app.use((req, res, next) => {
   // If no routes match, send them the React HTML.
